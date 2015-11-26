@@ -82,7 +82,7 @@ PALETTE_MONO = {
 
 #private methods
 
-reverse_palette_solid = {tuple(v):k for k,v in palette_solid.items()}
+reverse_palette_solid = {tuple(v):k for k,v in PALETTE_SOLID.items()}
 
 color_map = collections.defaultdict()
 
@@ -118,7 +118,7 @@ def distance_between_colors(real_color, palette_color):
 def nearest_neighbor_for_real_color(real_color):
     nearest_dist = sys.float_info.max
     nearest_neighbor = None
-    for palette_color in palette_solid.values():
+    for palette_color in PALETTE_SOLID.values():
         dist = distance_between_colors(real_color, tuple(palette_color))
         if dist < nearest_dist:
             nearest_neighbor = tuple(palette_color)
