@@ -104,13 +104,13 @@ def distance_between_colors(real_color, palette_color):
         pow((real_color[1] - palette_color[1]), 2) + 
         pow((real_color[2] - palette_color[2]), 2))
     # YUV
-    '''
+    
     real_yuv = rgb_to_yuv(real_color)
     palette_yuv = rgb_to_yuv(palette_color)
     dist = sqrt(pow((real_yuv[0] - palette_yuv[0]), 2) + 
         pow((real_yuv[1] - palette_yuv[1]), 2) + 
         pow((real_yuv[2] - palette_yuv[2]), 2))
-    '''
+
     # CIE
 
     return dist
@@ -146,7 +146,7 @@ def iter_frames(image_to_iter):
         pass
 
 
-def apply_color_overlay(image, color):
+def apply_color_overlay(image, color, position=None):
     '''Small function to apply an effect over an entire image'''
 
     color = nearest_neighbor_for_real_color(color)
@@ -154,7 +154,12 @@ def apply_color_overlay(image, color):
     if color in color_map:
         color_map[color] += 1
     else:
-        color_map[color] = 1    
+        color_map[color] = 1 
+
+    # log position to color map
+    # if position:
+    #     if reverse_palette_solid[color] == "208 light_stone_grey":
+    #         print position
 
     overlay_red, overlay_green, overlay_blue = color
 
@@ -193,7 +198,7 @@ def make_lego_image(thumbnail_image, brick_image):
     for brick_x in range(base_width):
         for brick_y in range(base_height):
             color = rgb_image.getpixel((brick_x, brick_y))
-            lego_image.paste(apply_color_overlay(brick_image, color),
+            lego_image.paste(apply_color_overlay(brick_image, color, (brick_x, brick_y)),
                              (brick_x * brick_width, brick_y * brick_height))
     return lego_image
 
