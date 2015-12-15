@@ -33,7 +33,8 @@ PALETTE_SOLID = {
     "037 bright_green": [0x01, 0x96, 0x25],
     "005 brick_yellow": [0xd9, 0xbb, 0x7c],
     "283 light_nougat": [0xf5, 0xc1, 0x89],
-    "208 light_stone_grey": [0xe4, 0xe4, 0xda],
+    # "208 light_stone_grey": [0xe4, 0xe4, 0xda],
+    "323 light_aqua": [0xbd, 0xdc, 0xd8],
     "191 flame_yellowish_orange": [0xf4, 0x9b, 0x01],
     "124 bright_reddish_violet": [0x9c, 0x01, 0xc6],
     "102 medium_blue": [0x48, 0x8c, 0xc6],
@@ -85,6 +86,7 @@ PALETTE_MONO = {
 reverse_palette_solid = {tuple(v):k for k,v in PALETTE_SOLID.items()}
 
 color_map = collections.defaultdict()
+color_pos_map = collections.defaultdict()
 
 def rgb_to_yuv(rgb_color):
     w_r = 0.299
@@ -151,6 +153,10 @@ def apply_color_overlay(image, color, position=None):
 
     color = nearest_neighbor_for_real_color(color)
 
+    # temp test for 208 alternative
+    # if reverse_palette_solid[color] == "208 light_stone_grey":
+    #     color = tuple(PALETTE_SOLID["323 light_aqua"])
+
     if color in color_map:
         color_map[color] += 1
     else:
@@ -160,6 +166,13 @@ def apply_color_overlay(image, color, position=None):
     # if position:
     #     if reverse_palette_solid[color] == "208 light_stone_grey":
     #         print position
+
+    # if position:
+    #     if color not in color_pos_map:
+    #         color_pos_map[color] = []
+    #         color_pos_map[color].append(position)
+    #     else:
+    #         color_pos_map[color].append(position)
 
     overlay_red, overlay_green, overlay_blue = color
 
@@ -314,6 +327,8 @@ def legofy_image(base_image, brick_image, output_path, size, palette_mode, dithe
         print ("{0}, amount:{1}".format(color 
             if color not in reverse_palette_solid else reverse_palette_solid[color], color_map[color]))
 
+        # for pos in color_pos_map[color]:
+        #     print pos
 
 def main(image_path, output_path=None, size=None,
          palette_mode=None, dither=False):
